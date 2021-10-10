@@ -19,6 +19,8 @@ This Application creates a simple CRUD for Agile Manifesto (Values and Principle
 | SQLyog | Click Here to download [SQLyog](https://webyog.com/product/sqlyog/) |
 
 #### Project Development Guide
+| Language/Framework | Links |
+| ------ | ------ |
 | JS | See Guide [VueJS](https://vuejs.org/v2/guide/) |
 | PHP | See Guide [CodeIgniter](https://codeigniter.com/userguide3/index.html) |
 | HTML/ CSS | See Guide [Bootstrap](https://bootstrap-vue.org/docs) |
