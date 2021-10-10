@@ -5,24 +5,24 @@ This Application creates a simple CRUD for Agile Manifesto (Values and Principle
 [Agile_App](https://github.com/paciojoji/agile_app.git)
 
 #### Developed using
-| ------        | ------              |
-|   Front-End   |   `Vue.Js 3`        | 
-|   Back-End    |   `CodeIgniter 3`   |
-|   Database    |   `MySQL`           |
+| ------ | ------ |
+| Front-End | `Vue.Js 3` | 
+| Back-End | `CodeIgniter 3` |
+| Database | `MySQL` |
 
 ## Project Setup
 #### Project Environment Setup References
-|   Vue JS 3        |   Click Here to download [Vue.Js](https://v3.vuejs.org/)                      | 
-|   CodeIgniter 3   |   Click Here to download [CodeIgniter](https://codeigniter.com/download)      |
-|   Xampp v3.2.2    |   Click Here to download [Xampp](https://www.apachefriends.org/download.html) |
-|   SQLyog          |   Click Here to download [SQLyog](https://webyog.com/product/sqlyog/)         |
+| Vue JS 3 | Click Here to download [Vue.Js](https://v3.vuejs.org/) | 
+| CodeIgniter 3 | Click Here to download [CodeIgniter](https://codeigniter.com/download) |
+| Xampp v3.2.2 | Click Here to download [Xampp](https://www.apachefriends.org/download.html) |
+| SQLyog | Click Here to download [SQLyog](https://webyog.com/product/sqlyog/) |
 
 #### Project Development Guide
-|   JS              |   See Guide [VueJS](https://vuejs.org/v2/guide/)                          |
-|   PHP             |   See Guide [CodeIgniter](https://codeigniter.com/userguide3/index.html)  |
-|   HTML/ CSS       |   See Guide [Bootstrap](https://bootstrap-vue.org/docs)                   |
-|   Vue Test        |   See Guide [Vue-Test-Utils](https://vue-test-utils.vuejs.org/)           |
-|   Configuration   |   See Guide [Vue-CLI](https://cli.vuejs.org/config/#global-cli-config)        |
+| JS | See Guide [VueJS](https://vuejs.org/v2/guide/) |
+| PHP | See Guide [CodeIgniter](https://codeigniter.com/userguide3/index.html) |
+| HTML/ CSS | See Guide [Bootstrap](https://bootstrap-vue.org/docs) |
+| Vue Test | See Guide [Vue-Test-Utils](https://vue-test-utils.vuejs.org/) |
+| Configuration | See Guide [Vue-CLI](https://cli.vuejs.org/config/#global-cli-config) |
 
 #### Clone to your Project Directory
 Go to your `XAMPP/WAMP` htdocs directory and Clone Project Repository using the following command line:
