@@ -5,10 +5,9 @@ This Application creates a simple CRUD for Agile Manifesto (Values and Principle
 [Agile_App](https://github.com/paciojoji/agile_app.git)
 
 #### Developed using
-| ------ | ------ |
-| Front-End | `Vue.Js 3` | 
-| Back-End | `CodeIgniter 3` |
-| Database | `MySQL` |
+| Front-End | Back-End | Database |
+| ------ | ------ | ------ |
+| `Vue.Js 3` | `CodeIgniter 3` | `MySQL` |
 
 ## Project Setup
 #### Project Environment Setup References
