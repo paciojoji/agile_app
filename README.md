@@ -11,6 +11,8 @@ This Application creates a simple CRUD for Agile Manifesto (Values and Principle
 
 ## Project Setup
 #### Project Environment Setup References
+| Environment | Links |
+| ------ | ------ |
 | Vue JS 3 | Click Here to download [Vue.Js](https://v3.vuejs.org/) | 
 | CodeIgniter 3 | Click Here to download [CodeIgniter](https://codeigniter.com/download) |
 | Xampp v3.2.2 | Click Here to download [Xampp](https://www.apachefriends.org/download.html) |
