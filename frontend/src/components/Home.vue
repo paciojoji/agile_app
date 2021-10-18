@@ -26,38 +26,38 @@
           <AddData @refreshData="getData" />
           <EditData ref="edit_data" @refreshData="getData" />
           <div class="data-container">
+            <!-- agileType 
+            1 = Values 
+            2 = Principles
+            -->
             <b-tabs content-class="mt-3 mb-3" fill>
               <b-tab
                 id="agile-data-list"
                 v-show="agileDataList.length > 0"
-                v-for="(v, i) in agileDataList"
+                v-for="(agileValueArrays, agileType) in agileDataList"
                 data-test="dataList"
-                :key="'data' + i"
+                :key="'data' + agileType"
                 :title="
-                  (i == 1 ? 'Values' : 'Principles') + ' of Agile Manifesto'
+                  (agileType == 1 ? 'Values' : 'Principles') + ' of Agile Manifesto'
                 "
               >
-                <h3 v-if="i == 1" class="tab-title">
+                <h3 v-if="agileType == 1" class="tab-title">
                   Values of Agile Manifesto
                 </h3>
                 <h3 v-else class="tab-title">Principles of Agile Manifesto</h3>
-                <div class="info" v-for="(vv, ii) in v" :key="'data_' + ii">
+                <div class="info" v-for="(agileValue, agileIndex) in agileValueArrays" :key="'data_' + agileIndex">
                   <div class="accordion" role="tablist">
                     <b-card no-body class="mb-2">
                       <b-card-header header-tag="header" class="p-1" role="tab">
                         <div class="row">
                           <div class="col-md-10">
-                            <!-- <b-icon
-                                icon="three-dots-vertical"
-                                font-scale="1"
-                              ></b-icon> -->
                             <p
                               class="lead agile-title"
-                              v-b-toggle="'accordion-' + ii"
+                              v-b-toggle="'accordion-' + agileIndex"
                               variant="info"
                             >
-                              <span class="agile-number"> {{ ii + 1 }} </span>
-                              {{ vv.title }}
+                              <span class="agile-number"> {{ agileIndex + 1 }} </span>
+                              {{ agileValue.title }}
                             </p>
                           </div>
                           <div class="col-md-2">
@@ -72,7 +72,7 @@
                                       name="edit-button"
                                       icon="pencil-fill"
                                       aria-hidden="true"
-                                      @click="editData(vv)"
+                                      @click="editData(agileValue)"
                                     ></b-icon>
                                   </div>
                                   <div class="icons__icon">
@@ -83,7 +83,7 @@
                                       variant="light"
                                       icon="trash-fill"
                                       aria-hidden="true"
-                                      @click="deleteData(vv.agile_id)"
+                                      @click="deleteData(agileValue.agile_id)"
                                     ></b-icon>
                                   </div>
                                 </div>
@@ -94,17 +94,17 @@
                       </b-card-header>
                       <div
                         class="collapse-container"
-                        v-show="vv.description != ''"
+                        v-show="agileValue.description != ''"
                       >
                         <b-collapse
-                          :id="'accordion-' + ii"
+                          :id="'accordion-' + agileIndex"
                           visible
                           accordion="my-accordion"
                           role="tabpanel"
                         >
                           <b-card-body>
                             <p class="text-justify">
-                              {{ vv.description }}
+                              {{ agileValue.description }}
                             </p>
                           </b-card-body>
                         </b-collapse>
