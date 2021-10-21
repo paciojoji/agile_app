@@ -13,7 +13,7 @@
   >
     <form ref="form" @submit.stop.prevent="submitForm">
       <b-form-group
-        label="Type"
+        label="Type *"
         label-for="type-input"
         invalid-feedback="Type is required"
       >
@@ -51,87 +51,81 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
-    name: "AddData",    
-    data: () => {
-        return {
-            agile_types: [
-              { value: null, text: 'Please select an option' },
-              { value:1, text:'Values' },
-              { value:2, text:'Principles' }
-              ],
-            form: {
-                type: 0,
-                title: "",
-                description: ""
-            },            
-        }
+  name: "AddData",
+  data: () => {
+    return {
+      agile_types: [
+        { value: null, text: "Please select an option" },
+        { value: 1, text: "Values" },
+        { value: 2, text: "Principles" },
+      ],
+      form: {
+        type: 0,
+        title: "",
+        description: "",
+      },
+    };
+  },
+  methods: {
+    checkFormValidity() {
+      if (this.form.type == null || this.form.title == null) {
+        this.displayToast("error", "Please fill out the required fields.");
+        return false;
+      } else {
+        return true;
+      }
     },
-    methods: {                
-        checkFormValidity(){                    
-          if(this.form.type == null ||
-            this.form.title == null)
-          {
-            this.displayToast('error','Please fill out the required fields.');
-            return false;
-          } else {
-            return true;
+    handleOk(bvModalEvt) {
+      bvModalEvt.preventDefault();
+      this.submitForm();
+    },
+    submitForm() {
+      this.showLoading();
+      if (this.checkFormValidity()) {
+        var _this = this;
+        Swal.fire({
+          title: "Confirm",
+          text: "Are you sure you want to save your data?",
+          showCancelButton: true,
+          confirmButtonText: `Save`,
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            Swal.showLoading();
+
+            var formData = new FormData();
+            formData.append("title", this.form.title);
+            formData.append("description", this.form.description);
+            formData.append("type", this.form.type);
+
+            try {
+              let response = await axios.post("/save-agile/", formData);
+              _this.$emit("refreshData");
+              _this.closeAddModal();
+              Swal.close();
+              _this.displayToast("success", response.data.message);
+            } catch (error) {
+              _this.displayToast("error", error);
+              console.log(error);
+            }
           }
-        },
-        handleOk(bvModalEvt) {
-        bvModalEvt.preventDefault()
-        this.submitForm()
-        },
-        submitForm(){
-          this.showLoading();
-          if(this.checkFormValidity()){          
-            var _this = this;
-            Swal.fire({
-                title: 'Confirm',
-                text: 'Are you sure you want to save your data?',
-                showCancelButton: true,
-                confirmButtonText: `Save`,
-            }).then((result) => {
-              if (result.isConfirmed) {
-                Swal.showLoading()
-
-                var formData = new FormData()
-                formData.append("title", this.form.title)
-                formData.append("description", this.form.description)
-                formData.append("type", this.form.type)
-
-                this.$agile_app.post("/save-agile/", formData)
-                .then(response => {
-                    if (response.status === 200) { 
-                        _this.$emit('refreshData');
-                        _this.closeAddModal();
-                        Swal.close();
-
-                        _this.displayToast('success',response.data.message);
-                    }
-                })
-                .catch(error => {
-                    console.log("AXIOS ERROR: " + error);
-                });
-              }
-            })
-          }
-        },
-        resetModal(){
-            this.form = {
-                type: null,
-                title: "",
-                description: ""
-            };
-        },       
-        closeAddModal(){
-          this.$bvModal.hide('add-data-modal')
-          this.resetModal();          
-        },
-
-    }
-}
+        });
+      }
+    },
+    resetModal() {
+      this.form = {
+        type: null,
+        title: "",
+        description: "",
+      };
+    },
+    closeAddModal() {
+      this.$bvModal.hide("add-data-modal");
+      this.resetModal();
+    },
+  },
+};
 </script>

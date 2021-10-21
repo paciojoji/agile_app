@@ -39,24 +39,21 @@ class Agile extends CI_Controller
   public function getAllAgile()
   {
     extract($_GET);
-    $status = 200;
 
     $data = $this->a_model->getAllAgileData();
     $data = arCol($data, 'type');
 
-    $data = [
-      'status' => $status,
-      'data'   => $data,
+    $response = [
+      'data' => $data
     ];
 
-    response_json($data);
+    response_json($response);
   }
 
   public function save()
   {
     extract($_POST);
 
-    $status = 0;
     $message = "";
 
     $insertData = [
@@ -68,15 +65,12 @@ class Agile extends CI_Controller
     $success = $this->a_model->addAgileData($insertData);
 
     if ($success) {
-      $status = 200;
       $message = "Successfully added data.";
     } else {
-      $status = 500;
       $message = "Unable to add data.";
     }
 
     $response = array(
-      'status'  => $status,
       'message' => $message,
     );
 
@@ -86,7 +80,6 @@ class Agile extends CI_Controller
   public function updateData()
   {
     extract($_POST);
-    $status = 0;
     $message = "";
 
     $updateData = [
@@ -98,15 +91,12 @@ class Agile extends CI_Controller
     $success = $this->a_model->updateAgileData($updateData, ["agile_id" => $agile_id]);
 
     if ($success) {
-      $status = 200;
       $message = "Successfully updated data.";
     } else {
-      $status = 500;
       $message = "Unable to update data.";
     }
 
     $response = array(
-      'status'  => $status,
       'message' => $message,
     );
 
@@ -116,21 +106,17 @@ class Agile extends CI_Controller
   public function removeData()
   {
     extract($_POST);
-    $status = 0;
     $message = "";
 
     $success = $this->a_model->removeAgileData($agile_id);
 
     if ($success) {
-      $status = 200;
       $message = "Successfully removed data.";
     } else {
-      $status = 500;
       $message = "Unable to remove data.";
     }
 
     $response = array(
-      'status'  => $status,
       'message' => $message,
     );
 

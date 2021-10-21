@@ -30,7 +30,7 @@
             1 = Values 
             2 = Principles
             -->
-            <b-tabs content-class="mt-3 mb-3" fill>
+            <b-tabs id="tab-content" content-class="mt-3 mb-3" fill>
               <b-tab
                 id="agile-data-list"
                 v-show="agileDataList.length > 0"
@@ -38,15 +38,24 @@
                 data-test="dataList"
                 :key="'data' + agileType"
                 :title="
-                  (agileType == 1 ? 'Values' : 'Principles') + ' of Agile Manifesto'
+                  (agileType == 1 ? 'Values' : 'Principles') +
+                    ' of Agile Manifesto'
                 "
               >
                 <h3 v-if="agileType == 1" class="tab-title">
                   Values of Agile Manifesto
                 </h3>
                 <h3 v-else class="tab-title">Principles of Agile Manifesto</h3>
-                <div class="info" v-for="(agileValue, agileIndex) in agileValueArrays" :key="'data_' + agileIndex">
-                  <div class="accordion" role="tablist">
+                <div
+                  class="info"
+                  v-for="(agileValue, agileIndex) in agileValueArrays"
+                  :key="'data_' + agileIndex"
+                >
+                  <div
+                    data-testid="accordion-list"
+                    class="accordion"
+                    role="tablist"
+                  >
                     <b-card no-body class="mb-2">
                       <b-card-header header-tag="header" class="p-1" role="tab">
                         <div class="row">
@@ -56,7 +65,9 @@
                               v-b-toggle="'accordion-' + agileIndex"
                               variant="info"
                             >
-                              <span class="agile-number"> {{ agileIndex + 1 }} </span>
+                              <span class="agile-number">
+                                {{ agileIndex + 1 }}
+                              </span>
                               {{ agileValue.title }}
                             </p>
                           </div>
@@ -125,71 +136,68 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import axios from 'axios'
+import Swal from "sweetalert2";
+import axios from "axios";
 
-import AddData from './AddData.vue'
-import EditData from './EditData.vue'
+import AddData from "./AddData.vue";
+import EditData from "./EditData.vue";
 
 export default {
-    name: "Home",
-    components: {
-      AddData,
-      EditData
+  name: "Home",
+  components: {
+    AddData,
+    EditData,
+  },
+  data: () => {
+    return {
+      agileDataList: [],
+    };
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    async getData() {
+      let _this = this;
+      try {
+        const response = await axios.get("/get-all-agile");     
+        this.agileDataList = response.data.data;
+      } catch (error) {
+        console.log(error);
+      }
     },
-    data: () => {
-        return {
-            agileDataList: []
-        }
+    editData(agile_data) {
+      this.$refs.edit_data.agile_data = agile_data;
+      this.$refs.edit_data.getAgileData();
+      this.$bvModal.show("edit-data-modal");
     },
-    mounted() {        
-        this.getData();
-    },
-    methods: {
-      async getData(){
-        var _this = this;
-        await _this.$agile_app.get("/get-all-agile")
-        .then((response) => {          
-            this.agileDataList = response.data.data;
-        }).catch(error => {
-            console.log("AXIOS ERROR: " + error);
-        });        
-      },
-      editData(agile_data) {        
-          this.$refs.edit_data.agile_data = agile_data;   
-          this.$refs.edit_data.getAgileData();
-          this.$bvModal.show('edit-data-modal')
-      },
-      deleteData(agile_id){
-        this.showLoading();        
-        var _this = this;
-        Swal.fire({
-            title: 'Confirm',
-            text: 'Are you sure you want to delete this data?',
-            showCancelButton: true,
-            confirmButtonText: `Save`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.showLoading()
+    deleteData(agile_id) {
+      let _this = this;
 
-            var formData = new FormData()
-            formData.append("agile_id", agile_id)
-            
-            this.$agile_app.post("/delete-agile/", formData)
-            .then(response => {
-                if (response.status === 200) { 
-                    _this.getData();
-                    Swal.close();
-                    _this.displayToast('success',response.data.message);
-                }
-            })
-            .catch(error => {
-                console.log("AXIOS ERROR: " + error);
-            });
+      Swal.fire({
+        title: "Confirm",
+        text: "Are you sure you want to delete this data?",
+        showCancelButton: true,
+        confirmButtonText: `Save`,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.showLoading();
+
+          var formData = new FormData();
+          formData.append("agile_id", agile_id);
+
+          try {
+            let response = await axios.post("/delete-agile/", formData);
+            _this.getData();
+            Swal.close();
+            _this.displayToast("success", response.data.message);
+          } catch (error) {
+            _this.displayToast("error", error);
+            console.log(error);
           }
-        })
-      
-        },
-    }
-}
+        }
+      });
+    },
+  },
+};
 </script>
